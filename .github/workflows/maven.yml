@@ -10,9 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    permissions:                   # Move permissions inside the 'build' job
+    permissions:                   # Use 'id-token' instead of 'dependencies'
       contents: read               # Read access to repository contents
-      dependencies: write          # Write access for dependency graph submission
+      id-token: write              # Write access to submit dependencies securely
 
     steps:
     - uses: actions/checkout@v4
