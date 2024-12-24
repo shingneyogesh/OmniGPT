@@ -6,14 +6,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
-permissions:                  # Add this section
-  contents: read              # Read access to contents
-  dependencies: write         # Write access for dependency graph submission
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    permissions:                   # Move permissions inside the 'build' job
+      contents: read               # Read access to repository contents
+      dependencies: write          # Write access for dependency graph submission
 
     steps:
     - uses: actions/checkout@v4
