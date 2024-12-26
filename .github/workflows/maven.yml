@@ -43,10 +43,12 @@ jobs:
     # Step 6: Run Tests
     - name: Run Tests
       env:
-        BASE_URL: "http://34.28.190.18/" # Provide the application URL as an environment variable
+        BASE_URL: "http://34.28.190.18/"
+        EMAIL_USER: ${{ secrets.EMAIL_USER }}
+        EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
       run: |
         echo "Cleaning up old reports if any..."
-        rm -f ./extent-reports/report.html
+        rm -f ExtentReport.html
         echo "Running test suite..."
         mvn test -Dsurefire.suiteXmlFiles=./testng.xml
 
@@ -55,7 +57,7 @@ jobs:
       if: always()
       run: |
         echo "Checking directory structure for generated report..."
-        find . -name 'report.html'
+        find . -name 'ExtentReport.html'
         ls -R
 
     # Step 8: Archive Extent Reports and Screenshots
@@ -65,14 +67,14 @@ jobs:
       with:
         name: test-reports
         path: |
-          extent-reports/report.html
-          extent-reports/screenshots/*
+          ExtentReport.html
+          screenshots/*
 
     # Step 9: Add Summary for Report
     - name: Add Summary for Report
       if: always()
       run: |
-        if [ -f "./extent-reports/report.html" ]; then
+        if [ -f "ExtentReport.html" ]; then
           echo "### Test Report Generated" >> $GITHUB_STEP_SUMMARY
           echo "Download the report and screenshots from the 'Artifacts' section above." >> $GITHUB_STEP_SUMMARY
         else
