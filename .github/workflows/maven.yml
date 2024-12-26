@@ -11,11 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the code
-    - name: Checkout repository
+    # Step 1: Clean Workspace
+    - name: Clean Workspace
+      run: rm -rf * || true
+
+    # Step 2: Checkout the Repository
+    - name: Checkout Repository
       uses: actions/checkout@v4
 
-    # Step 2: Set up JDK 11
+    # Step 3: Set up JDK 11
     - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
@@ -23,8 +27,8 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    # Step 3: Cache Maven dependencies
-    - name: Cache Maven dependencies
+    # Step 4: Cache Maven Dependencies
+    - name: Cache Maven Dependencies
       uses: actions/cache@v3
       with:
         path: ~/.m2
@@ -32,32 +36,37 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven
 
-    # Step 4: Install dependencies
-    - name: Install dependencies
+    # Step 5: Install Dependencies
+    - name: Install Dependencies
       run: mvn install -DskipTests
 
-    # Step 5: Run Tests
+    # Step 6: Run Tests
     - name: Run Tests
       env:
         BASE_URL: "http://34.28.190.18/" # Provide the application URL as an environment variable
-      run: mvn test -Dsurefire.suiteXmlFiles=./testng.xml
+      run: |
+        # Remove previous reports if they exist
+        if [ -f "./extent-reports/report.html" ]; then
+          rm -f ./extent-reports/report.html
+        fi
+        mvn test -Dsurefire.suiteXmlFiles=./testng.xml
 
-    # Step 6: Debug Directory Structure (Verify Reports and Screenshots)
+    # Step 7: Debug Directory Structure
     - name: Debug Directory Structure
       if: always()
-      run: ls -R
+      run: find . -name 'report.html'
 
-    # Step 7: Archive Extent Reports and Screenshots
+    # Step 8: Archive Extent Reports and Screenshots
     - name: Archive Extent Reports and Screenshots
       if: always()
       uses: actions/upload-artifact@v3
       with:
         name: test-reports
         path: |
-          **/report.html
-          **/screenshots/* # Include all screenshots captured during the tests
+          extent-reports/report.html
+          extent-reports/screenshots/* # Update paths to match your report and screenshot directory
 
-    # Step 8: Add Report Link to Summary
+    # Step 9: Add Report Link to Summary
     - name: Add Summary for Report
       if: always()
       run: |
