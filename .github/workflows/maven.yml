@@ -15,7 +15,7 @@ jobs:
     - name: Clean Workspace
       run: rm -rf * || true
 
-    # Step 2: Checkout the Repository
+    # Step 2: Checkout Repository
     - name: Checkout Repository
       uses: actions/checkout@v4
 
@@ -28,7 +28,7 @@ jobs:
         cache: maven
 
     # Step 4: Cache Maven Dependencies
-    - name: Cache Maven Dependencies
+    - name: Cache Maven dependencies
       uses: actions/cache@v3
       with:
         path: ~/.m2
@@ -45,16 +45,18 @@ jobs:
       env:
         BASE_URL: "http://34.28.190.18/" # Provide the application URL as an environment variable
       run: |
-        # Remove previous reports if they exist
-        if [ -f "./extent-reports/report.html" ]; then
-          rm -f ./extent-reports/report.html
-        fi
+        echo "Cleaning up old reports if any..."
+        rm -f ./extent-reports/report.html
+        echo "Running test suite..."
         mvn test -Dsurefire.suiteXmlFiles=./testng.xml
 
     # Step 7: Debug Directory Structure
     - name: Debug Directory Structure
       if: always()
-      run: find . -name 'report.html'
+      run: |
+        echo "Checking directory structure for generated report..."
+        find . -name 'report.html'
+        ls -R
 
     # Step 8: Archive Extent Reports and Screenshots
     - name: Archive Extent Reports and Screenshots
@@ -64,11 +66,15 @@ jobs:
         name: test-reports
         path: |
           extent-reports/report.html
-          extent-reports/screenshots/* # Update paths to match your report and screenshot directory
+          extent-reports/screenshots/*
 
-    # Step 9: Add Report Link to Summary
+    # Step 9: Add Summary for Report
     - name: Add Summary for Report
       if: always()
       run: |
-        echo "### Test Report Generated" >> $GITHUB_STEP_SUMMARY
-        echo "Download the report and screenshots from the 'Artifacts' section above." >> $GITHUB_STEP_SUMMARY
+        if [ -f "./extent-reports/report.html" ]; then
+          echo "### Test Report Generated" >> $GITHUB_STEP_SUMMARY
+          echo "Download the report and screenshots from the 'Artifacts' section above." >> $GITHUB_STEP_SUMMARY
+        else
+          echo "### Test Report Missing" >> $GITHUB_STEP_SUMMARY
+          echo "The test report was not generated. Check the test execution logs for details." >> $GITHUB_STEP_SUMMARY
