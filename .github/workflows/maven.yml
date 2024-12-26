@@ -1,4 +1,4 @@
-name: Maven Test Execution
+name: Maven Test Execution with Reports
 
 on:
   push:
@@ -36,14 +36,28 @@ jobs:
     - name: Install dependencies
       run: mvn install -DskipTests
 
-    # Step 5: Execute AllScript Test
+    # Step 5: Run AllScript Tests
     - name: Run AllScript Test
       run: mvn test -Dsurefire.suiteXmlFiles=./testng.xml
 
-    # Step 6: Archive TestNG Results
-    - name: Archive Test Results
+    # Step 6: Generate TestNG HTML Report
+    - name: Generate TestNG Report
+      run: mvn surefire-report:report-only
+      env:
+        MAVEN_OPTS: "-Djava.awt.headless=true"
+
+    # Step 7: Archive TestNG Results
+    - name: Archive Surefire Reports
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: test-results
+        name: surefire-reports
         path: target/surefire-reports/
+
+    # Step 8: Archive TestNG HTML Report
+    - name: Archive TestNG HTML Report
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: testng-html-report
+        path: target/site/surefire-report.html
