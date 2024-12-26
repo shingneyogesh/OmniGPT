@@ -78,3 +78,4 @@ jobs:
         else
           echo "### Test Report Missing" >> $GITHUB_STEP_SUMMARY
           echo "The test report was not generated. Check the test execution logs for details." >> $GITHUB_STEP_SUMMARY
+        fi
