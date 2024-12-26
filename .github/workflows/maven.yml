@@ -60,4 +60,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: testng-html-report
-        path: target/site/surefire-report.html
+        path: target/site/surefire-report/*
+
