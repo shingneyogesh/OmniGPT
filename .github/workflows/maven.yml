@@ -1,4 +1,4 @@
-name: Maven Test Execution with Extent Reports
+name: Selenium Test Execution with Extent Reports
 
 on:
   push:
@@ -36,26 +36,30 @@ jobs:
     - name: Install dependencies
       run: mvn install -DskipTests
 
-    # Step 5: Run AllScript Tests
+    # Step 5: Run Tests
     - name: Run Tests
+      env:
+        BASE_URL: "http://34.28.190.18/" # Provide the application URL as an environment variable
       run: mvn test -Dsurefire.suiteXmlFiles=./testng.xml
 
-    # Step 6: Debug Directory Structure (Verify Files)
+    # Step 6: Debug Directory Structure (Verify Reports and Screenshots)
     - name: Debug Directory Structure
       if: always()
       run: ls -R
 
-    # Step 7: Archive Extent Reports
-    - name: Archive Extent Reports
+    # Step 7: Archive Extent Reports and Screenshots
+    - name: Archive Extent Reports and Screenshots
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: extent-reports
-        path: '**/report.html' # Search for report.html anywhere in the project
+        name: test-reports
+        path: |
+          **/report.html
+          **/screenshots/* # Include all screenshots captured during the tests
 
     # Step 8: Add Report Link to Summary
     - name: Add Summary for Report
       if: always()
       run: |
-        echo "### Extent Report Generated" >> $GITHUB_STEP_SUMMARY
-        echo "Download the report from the 'Artifacts' section above." >> $GITHUB_STEP_SUMMARY
+        echo "### Test Report Generated" >> $GITHUB_STEP_SUMMARY
+        echo "Download the report and screenshots from the 'Artifacts' section above." >> $GITHUB_STEP_SUMMARY
