@@ -40,28 +40,22 @@ jobs:
     - name: Run AllScript Test
       run: mvn test -Dsurefire.suiteXmlFiles=./testng.xml
 
-    # Step 6: Generate Extent Reports
-    - name: Generate Extent Reports
-      run: mvn site -DgenerateReports=true
-      env:
-        MAVEN_OPTS: "-Djava.awt.headless=true"
-
-    # Step 7: Debug Directory Structure (Optional)
+    # Step 6: Debug Directory Structure (Optional)
     - name: Debug Directory Structure
       if: always()
       run: ls -R
 
-    # Step 8: Archive Extent Reports
+    # Step 7: Archive Extent Reports (report.html)
     - name: Archive Extent Reports
       if: always()
       uses: actions/upload-artifact@v3
       with:
         name: extent-reports
-        path: test-output/ExtentReports/* # Replace with the correct path if different
+        path: src/main/java/report.html # Update to the actual path of report.html
 
-    # Step 9: Add Report Link in Summary
+    # Step 8: Add Report Link in Summary
     - name: Add Extent Report Link to Summary
       if: always()
       run: |
         echo "### Extent Report :link:" >> $GITHUB_STEP_SUMMARY
-        echo "[View Extent Report](./artifacts/extent-reports/index.html)" >> $GITHUB_STEP_SUMMARY
+        echo "[View Extent Report](./artifacts/extent-reports/report.html)" >> $GITHUB_STEP_SUMMARY
