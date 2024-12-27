@@ -88,11 +88,26 @@
     </dependency>
 
     <!-- Apache Commons Collections -->
-   <dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-collections4</artifactId>
-    <version>4.4</version>
-</dependency>
-
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.4</version>
+    </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Maven Surefire Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+        <configuration>
+          <includes>
+            <include>**/testcases/AllScript.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
