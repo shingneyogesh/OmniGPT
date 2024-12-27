@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="ParallelExecutionSuite" parallel="none" thread-count="2">
     <!-- Test 1 -->
-    <test name="AllScriptTest">
+    <test name="AllScript">
         <classes>
             <class name="testcases.AllScript"/>
         </classes>
