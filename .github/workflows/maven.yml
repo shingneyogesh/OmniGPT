@@ -43,7 +43,7 @@ jobs:
 
     - name: Run Tests
       env:
-        BASE_URL: "http://34.28.190.18/"
+        BASE_URL: "http://104.155.160.31/"
         EMAIL_USER: ${{ secrets.EMAIL_USER }}
         EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
       run: |
