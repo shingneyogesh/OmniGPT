@@ -67,14 +67,14 @@ jobs:
       with:
         name: test-reports
         path: |
-          java/reports/ExtentReport.html
-          java/reports/screenshots/*
+          java/ExtentReport.html
+          java/screenshots/*
 
     # Step 9: Add Summary for Report
     - name: Add Summary for Report
       if: always()
       run: |
-        if [ -f "java/reports/ExtentReport.html" ]; then
+        if [ -f "java/ExtentReport.html" ]; then
           echo "### Test Report Generated" >> $GITHUB_STEP_SUMMARY
           echo "Download the report and screenshots from the 'Artifacts' section above." >> $GITHUB_STEP_SUMMARY
         else
