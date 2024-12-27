@@ -104,7 +104,7 @@
         <version>3.0.0-M5</version>
         <configuration>
           <includes>
-            <include>**/testcases/AllScript.java</include>
+            <include>**/testcses/AllScript.java</include>
           </includes>
         </configuration>
       </plugin>
