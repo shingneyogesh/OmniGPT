@@ -11,9 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Clean Workspace
-      run: rm -rf * || true
-
     - name: Checkout Repository
       uses: actions/checkout@v4
 
@@ -34,6 +31,9 @@ jobs:
 
     - name: Debug Maven Dependencies
       run: mvn dependency:tree
+
+    - name: Resolve Maven Dependencies
+      run: mvn dependency:resolve
 
     - name: Clean Project
       run: mvn clean
