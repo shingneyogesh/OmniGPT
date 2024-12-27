@@ -48,9 +48,9 @@ jobs:
         EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
       run: |
         echo "Cleaning up old reports if any..."
-        rm -f java/reports/ExtentReport.html
-        echo "Running test suite..."
-        mvn test -Dsurefire.suiteXmlFiles=./testng.xml
+        rm -f target/reports/ExtentReport.html
+        echo "Running AllScript test case..."
+        mvn test -Dtest=testcases.AllScript
 
     # Step 7: Debug Directory Structure
     - name: Debug Directory Structure
@@ -67,14 +67,14 @@ jobs:
       with:
         name: test-reports
         path: |
-          java/ExtentReport.html
-          java/screenshots/*
+          target/ExtentReport.html
+          target/screenshots/*
 
     # Step 9: Add Summary for Report
     - name: Add Summary for Report
       if: always()
       run: |
-        if [ -f "java/ExtentReport.html" ]; then
+        if [ -f "target/ExtentReport.html" ]; then
           echo "### Test Report Generated" >> $GITHUB_STEP_SUMMARY
           echo "Download the report and screenshots from the 'Artifacts' section above." >> $GITHUB_STEP_SUMMARY
         else
