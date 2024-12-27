@@ -3,7 +3,7 @@
   <groupId>Omninura.ai</groupId>
   <artifactId>OmiGPT</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  
+
   <dependencies>
     <!-- Selenium -->
     <dependency>
@@ -11,7 +11,7 @@
       <artifactId>selenium-java</artifactId>
       <version>4.27.0</version>
     </dependency>
-    
+
     <!-- TestNG -->
     <dependency>
       <groupId>org.testng</groupId>
@@ -26,7 +26,7 @@
       <artifactId>extentreports</artifactId>
       <version>5.1.2</version>
     </dependency>
-    
+
     <!-- Apache POI -->
     <dependency>
       <groupId>org.apache.poi</groupId>
@@ -106,6 +106,17 @@
           <includes>
             <include>**/testcses/AllScript.java</include>
           </includes>
+        </configuration>
+      </plugin>
+
+      <!-- Maven Compiler Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>11</source>
+          <target>11</target>
         </configuration>
       </plugin>
     </plugins>
