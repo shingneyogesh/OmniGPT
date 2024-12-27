@@ -87,6 +87,15 @@
       <version>1.6.2</version>
     </dependency>
 
+    <dependencies>
+  <dependency>
+    <groupId>org.testng</groupId>
+    <artifactId>testng</artifactId>
+    <version>7.10.2</version> <!-- Use the latest compatible version -->
+    <scope>test</scope>
+  </dependency>
+</dependencies>
+
     <!-- Apache Commons Collections -->
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -108,6 +117,7 @@
           </includes>
         </configuration>
       </plugin>
+
 
       <!-- Maven Compiler Plugin -->
       <plugin>
