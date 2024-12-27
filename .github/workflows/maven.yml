@@ -1,8 +1,6 @@
 name: Selenium Test Execution with Extent Reports
 
 on:
-  schedule:
-    - cron: '30 1 * * *' # Runs daily at 7:00 AM IST (1:30 AM UTC)
   push:
     branches: [ "main" ]
   pull_request:
@@ -50,7 +48,7 @@ jobs:
         EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
       run: |
         echo "Cleaning up old reports if any..."
-        rm -f ExtentReport.html
+        rm -f reports/ExtentReport.html
         echo "Running test suite..."
         mvn test -Dsurefire.suiteXmlFiles=./testng.xml
 
@@ -69,14 +67,14 @@ jobs:
       with:
         name: test-reports
         path: |
-          ExtentReport.html
-          screenshots/*
+          reports/ExtentReport.html
+          reports/screenshots/*
 
     # Step 9: Add Summary for Report
     - name: Add Summary for Report
       if: always()
       run: |
-        if [ -f "ExtentReport.html" ]; then
+        if [ -f "reports/ExtentReport.html" ]; then
           echo "### Test Report Generated" >> $GITHUB_STEP_SUMMARY
           echo "Download the report and screenshots from the 'Artifacts' section above." >> $GITHUB_STEP_SUMMARY
         else
