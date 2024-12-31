@@ -31,7 +31,7 @@
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>7.10.2</version>
-      <scope>test</scope>
+      <scope>compile</scope> <!-- Changed scope from test to compile -->
     </dependency>
 
     <!-- Extent Reports -->
@@ -94,9 +94,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0</version>
         <configuration>
-          <includes>
-            <include>**/*Test.java</include>
-          </includes>
+          <suiteXmlFiles>
+            <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+          </suiteXmlFiles>
         </configuration>
       </plugin>
     </plugins>
